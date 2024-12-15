@@ -2,12 +2,12 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <random>
+using namespace std;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    logic();
     //styling the ui
     style();
     //filling my comboBox below
@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     //setting range of the slider
     ui->horizontalSlider->setRange(0, 35);
     ui->horizontalSlider->setValue(13);
+
     //setting the slider value to the label
     ui->label_5->setText(QString::number(ui->horizontalSlider->value()));
     // setting the check box state to true by default
@@ -27,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->horizontalSlider,&QSlider::valueChanged,this,&MainWindow::sliderValue);
     connect(ui->checkBox_5,&QCheckBox::stateChanged,this,&MainWindow::checkbox);
     connect(ui->checkBox_6,&QCheckBox::stateChanged,this,&MainWindow::checkbox2);
+    connect(ui->pushButton,&QPushButton::clicked,this,&MainWindow::logic1);
 }
 
 MainWindow::~MainWindow()
@@ -74,9 +76,38 @@ void MainWindow::checkbox2(){
 
     }
 }
-void MainWindow::logic(){
+void MainWindow::logic1(){
+    int slval = ui->horizontalSlider->value();
+    ui->label_3->clear();
+    random_device device;
+    mt19937 generate(device());
+    uniform_int_distribution<> numericals(0,9);
+    uniform_int_distribution<> smallAlpha('a','z');
+    vector<char> symbols = {'!', '@', '#', '$', '%', '^', '&', '*',')','(','~','`',';',':'};
+    uniform_int_distribution<> symbolpick(0, symbols.size() - 1);
+    uniform_int_distribution<> randomgen(0,2);
 
+
+
+
+    // the generating logic
+    for(int n=0;n<slval;n++){
+        int randomprint = randomgen(generate);
+        if(randomprint==0){
+            int numbers = numericals(generate) ;
+            ui->label_3->setText(ui->label_3->text() + QString::number(numbers));
+        }
+        if(randomprint==1){
+            char small_alpha = smallAlpha(generate) ;
+            ui->label_3->setText(ui->label_3->text() + small_alpha);
+        }
+        if(randomprint==2){
+            char specialchars = symbols[symbolpick(generate)] ;
+            ui->label_3->setText(ui->label_3->text() + specialchars);
+        }
+        }
 }
+
 void MainWindow::style(){
     //coloring
 

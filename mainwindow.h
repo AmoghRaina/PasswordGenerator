@@ -24,5 +24,6 @@ private:
     void sliderValue(int val);
     void checkbox();
     void checkbox2();
+    void logic1();
 };
 #endif // MAINWINDOW_H
