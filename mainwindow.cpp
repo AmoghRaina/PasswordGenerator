@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <random>
+#include <QClipboard>
 using namespace std;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -24,11 +25,19 @@ MainWindow::MainWindow(QWidget *parent)
     ui->checkBox_2->setChecked(true);
     ui->checkBox_3->setChecked(true);
     ui->checkBox_4->setChecked(true);
+
+
+
     connect(ui->checkBox,&QCheckBox::stateChanged,this,&MainWindow::generatePassword);
     connect(ui->horizontalSlider,&QSlider::valueChanged,this,&MainWindow::sliderValue);
     connect(ui->checkBox_5,&QCheckBox::stateChanged,this,&MainWindow::checkbox);
     connect(ui->checkBox_6,&QCheckBox::stateChanged,this,&MainWindow::checkbox2);
     connect(ui->pushButton,&QPushButton::clicked,this,&MainWindow::logic1);
+    connect(ui->pushButton_3,&QPushButton::clicked,this,&MainWindow::copy);
+    connect(ui->checkBox,&QCheckBox::stateChanged,this,&MainWindow::check);
+    connect(ui->checkBox_2,&QCheckBox::stateChanged,this,&MainWindow::check);
+    connect(ui->checkBox_3,&QCheckBox::stateChanged,this,&MainWindow::check);
+    connect(ui->checkBox_4,&QCheckBox::stateChanged,this,&MainWindow::check);
 }
 
 MainWindow::~MainWindow()
@@ -49,12 +58,13 @@ void MainWindow::checkbox(){
     if(ui->checkBox_5->isChecked()){
         ui->checkBox_3->setChecked(false);
         ui->checkBox_3->setEnabled(false);  // disabling the checkbox
-
+        symbolst = false;
 
     }
     else if(!ui->checkBox_5->isChecked()){
     ui->checkBox_3->setEnabled(true);
         ui->checkBox_3->setChecked(true);
+        symbolst = true;
     }
 
 
@@ -65,6 +75,7 @@ void MainWindow::checkbox2(){
         ui->checkBox->setChecked(false);
         ui->checkBox_3->setEnabled(false);
         ui->checkBox->setEnabled(false);
+        numt = false;
 
 
     }
@@ -73,41 +84,86 @@ void MainWindow::checkbox2(){
         ui->checkBox_3->setChecked(true);
         ui->checkBox->setEnabled(true);
         ui->checkBox->setChecked(true);
+        numt = true;
 
     }
 }
 void MainWindow::logic1(){
     int slval = ui->horizontalSlider->value();
     ui->label_3->clear();
+    generatedPassword.clear();
+
+     // random distribution logic
     random_device device;
     mt19937 generate(device());
     uniform_int_distribution<> numericals(0,9);
     uniform_int_distribution<> smallAlpha('a','z');
+    uniform_int_distribution<> bigAlpha('A', 'Z');
     vector<char> symbols = {'!', '@', '#', '$', '%', '^', '&', '*',')','(','~','`',';',':'};
     uniform_int_distribution<> symbolpick(0, symbols.size() - 1);
-    uniform_int_distribution<> randomgen(0,2);
 
+    uniform_int_distribution<> randomgen(0,3);
 
+   // the generating logic
 
-
-    // the generating logic
     for(int n=0;n<slval;n++){
         int randomprint = randomgen(generate);
         if(randomprint==0){
             int numbers = numericals(generate) ;
-            ui->label_3->setText(ui->label_3->text() + QString::number(numbers));
+           generatedPassword += QString::number(numbers);
         }
         if(randomprint==1){
             char small_alpha = smallAlpha(generate) ;
-            ui->label_3->setText(ui->label_3->text() + small_alpha);
+                generatedPassword += QString(small_alpha);
         }
         if(randomprint==2){
             char specialchars = symbols[symbolpick(generate)] ;
-            ui->label_3->setText(ui->label_3->text() + specialchars);
+            generatedPassword += QString(specialchars);
         }
+
+        if(randomprint==3){
+            char bigA = bigAlpha(generate);
+           generatedPassword += QString(bigA);
         }
+
+        }
+    ui->label_3->setText(generatedPassword);
+
+
+}
+void MainWindow::easy(){
+
 }
 
+
+void MainWindow::check(){
+    //checkboxes bool value
+    if(!ui->checkBox->isChecked()){
+        numt =false;
+    }
+    else {
+        numt =true;
+    }
+    if(!ui->checkBox_2->isChecked()){
+        smallAlp =false;
+    }
+    else {
+        smallAlp =true;
+    }
+    if(!ui->checkBox_3->isChecked()){
+        symbolst =false;
+    }
+    if(!ui->checkBox_4->isChecked()){
+        bigAlp =false;
+    }
+    qDebug() << "numt is " << numt;
+    qDebug() << "numt is " << smallAlp;
+}
+
+void MainWindow::copy(){
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(generatedPassword);
+}
 void MainWindow::style(){
     //coloring
 
