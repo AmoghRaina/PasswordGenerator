@@ -51,7 +51,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>30</y>
+      <y>20</y>
       <width>141</width>
       <height>26</height>
      </rect>
@@ -99,7 +99,7 @@
      <rect>
       <x>20</x>
       <y>20</y>
-      <width>131</width>
+      <width>171</width>
       <height>20</height>
      </rect>
     </property>
@@ -114,7 +114,7 @@
      <string notr="true">background-color: rgb(27, 27, 27);</string>
     </property>
     <property name="text">
-     <string>Password Generator</string>
+     <string>Password Generator Seed:</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
@@ -140,7 +140,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>60</y>
+      <y>50</y>
       <width>151</width>
       <height>26</height>
      </rect>
@@ -161,7 +161,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>90</y>
+      <y>80</y>
       <width>151</width>
       <height>26</height>
      </rect>
@@ -182,7 +182,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>120</y>
+      <y>110</y>
       <width>151</width>
       <height>26</height>
      </rect>
@@ -266,8 +266,8 @@
    <widget class="QComboBox" name="comboBox">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>17</y>
+      <x>165</x>
+      <y>15</y>
       <width>161</width>
       <height>28</height>
      </rect>
@@ -347,6 +347,73 @@
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>200</y>
+      <width>63</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Tahoma</family>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(27, 27, 27);</string>
+    </property>
+    <property name="text">
+     <string>Strength:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>200</y>
+      <width>21</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Tahoma</family>
+      <underline>false</underline>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(27, 27, 27);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>165</y>
+      <width>81</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Tahoma</family>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(27, 27, 27);
+color: rgb(17, 255, 5);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>label_2</zorder>
    <zorder>checkBox</zorder>
    <zorder>pushButton</zorder>
@@ -363,6 +430,9 @@
    <zorder>checkBox_6</zorder>
    <zorder>pushButton_3</zorder>
    <zorder>label_5</zorder>
+   <zorder>label_6</zorder>
+   <zorder>label_7</zorder>
+   <zorder>label_8</zorder>
   </widget>
  </widget>
  <resources/>

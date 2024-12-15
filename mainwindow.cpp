@@ -3,6 +3,8 @@
 #include <QMessageBox>
 #include <random>
 #include <QClipboard>
+#include <QTimer>
+
 using namespace std;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,8 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
     //styling the ui
     style();
     //filling my comboBox below
-    ui->comboBox->addItem("Mersenne Twister Engine");
-    ui->comboBox->addItem("Srand Engine");
+    ui->comboBox->addItem("Hardware Randomness");
+    ui->comboBox->addItem("Time Randomness");
     //setting range of the slider
     ui->horizontalSlider->setRange(0, 35);
     ui->horizontalSlider->setValue(13);
@@ -89,6 +91,7 @@ void MainWindow::checkbox2(){
     }
 }
 void MainWindow::logic1(){
+    if(ui->comboBox->currentIndex()==0){
     int slval = ui->horizontalSlider->value();
     ui->label_3->clear();
     generatedPassword.clear();
@@ -108,30 +111,166 @@ void MainWindow::logic1(){
 
     for(int n=0;n<slval;n++){
         int randomprint = randomgen(generate);
-        if(randomprint==0){
+
+        if(symbolst==true&&numt==false&&smallAlp==false&&bigAlp==false){
+            randomprint=2;
+        }
+        if(symbolst==false&&numt==true&&smallAlp==false&&bigAlp==false){
+            randomprint=0;
+        }
+        if(symbolst==false&&numt==false&&smallAlp==true&&bigAlp==false){
+            randomprint=1;
+        }
+        if(symbolst==false&&numt==false&&smallAlp==false&&bigAlp==true){
+            randomprint=3;
+        }
+
+        if(symbolst==false){
+            if(randomprint==2)
+                randomprint+=1;
+        }
+        if(numt==false){
+            if(randomprint==0){
+                randomprint+=1;
+            }
+        }
+        if(smallAlp==false){
+            if(randomprint==1){
+                randomprint+=1;
+            }
+        }
+        if(bigAlp==false){
+            if(randomprint==3){
+                randomprint-=3;
+            }
+        }
+
+
+        if(randomprint==0&&numt==true){
             int numbers = numericals(generate) ;
            generatedPassword += QString::number(numbers);
         }
-        if(randomprint==1){
+        if(randomprint==1&&smallAlp==true){
             char small_alpha = smallAlpha(generate) ;
                 generatedPassword += QString(small_alpha);
         }
-        if(randomprint==2){
+        if(randomprint==2&&symbolst==true){
             char specialchars = symbols[symbolpick(generate)] ;
             generatedPassword += QString(specialchars);
         }
 
-        if(randomprint==3){
+        if(randomprint==3&&bigAlp==true){
             char bigA = bigAlpha(generate);
            generatedPassword += QString(bigA);
         }
 
         }
     ui->label_3->setText(generatedPassword);
+        int sliderValue = ui->horizontalSlider->value();
+    if (sliderValue < 4) {
+        QMessageBox::warning(this, "Warning", "The slider value is too low! Please increase it.");
+    } else if (sliderValue < 7) {
+        ui->label_7->setStyleSheet("background-color: red;");
+    } else if (sliderValue < 9) {
+        ui->label_7->setStyleSheet("background-color: yellow;");
+    }
+    else if (sliderValue>=11){
+        ui->label_7->setStyleSheet("background-color: green;");
+
+    }
+    }
+    else{
+        int slval = ui->horizontalSlider->value();
+        ui->label_3->clear();
+        generatedPassword.clear();
+
+        // random distribution logic
+
+        mt19937 generate(time(0));
+        uniform_int_distribution<> numericals(0,9);
+        uniform_int_distribution<> smallAlpha('a','z');
+        uniform_int_distribution<> bigAlpha('A', 'Z');
+        vector<char> symbols = {'!', '@', '#', '$', '%', '^', '&', '*',')','(','~','`',';',':'};
+        uniform_int_distribution<> symbolpick(0, symbols.size() - 1);
+
+        uniform_int_distribution<> randomgen(0,3);
+
+        // the generating logic
+
+        for(int n=0;n<slval;n++){
+            int randomprint = randomgen(generate);
+
+            if(symbolst==true&&numt==false&&smallAlp==false&&bigAlp==false){
+                randomprint=2;
+            }
+            if(symbolst==false&&numt==true&&smallAlp==false&&bigAlp==false){
+                randomprint=0;
+            }
+            if(symbolst==false&&numt==false&&smallAlp==true&&bigAlp==false){
+                randomprint=1;
+            }
+            if(symbolst==false&&numt==false&&smallAlp==false&&bigAlp==true){
+                randomprint=3;
+            }
+
+            if(symbolst==false){
+                if(randomprint==2)
+                    randomprint+=1;
+            }
+            if(numt==false){
+                if(randomprint==0){
+                    randomprint+=1;
+                }
+            }
+            if(smallAlp==false){
+                if(randomprint==1){
+                    randomprint+=1;
+                }
+            }
+            if(bigAlp==false){
+                if(randomprint==3){
+                    randomprint-=3;
+                }
+            }
 
 
-}
+            if(randomprint==0&&numt==true){
+                int numbers = numericals(generate) ;
+                generatedPassword += QString::number(numbers);
+            }
+            if(randomprint==1&&smallAlp==true){
+                char small_alpha = smallAlpha(generate) ;
+                generatedPassword += QString(small_alpha);
+            }
+            if(randomprint==2&&symbolst==true){
+                char specialchars = symbols[symbolpick(generate)] ;
+                generatedPassword += QString(specialchars);
+            }
+
+            if(randomprint==3&&bigAlp==true){
+                char bigA = bigAlpha(generate);
+                generatedPassword += QString(bigA);
+            }
+
+        }
+        ui->label_3->setText(generatedPassword);
+        int sliderValue = ui->horizontalSlider->value();
+        if (sliderValue < 4) {
+            QMessageBox::warning(this, "Warning", "The slider value is too low! Please increase it.");
+        } else if (sliderValue < 7) {
+            ui->label_7->setStyleSheet("background-color: red;");
+        } else if (sliderValue < 9) {
+            ui->label_7->setStyleSheet("background-color: yellow;");
+        }
+        else if (sliderValue>=11){
+            ui->label_7->setStyleSheet("background-color: green;");
+
+        }
+    }
+    }
+
 void MainWindow::easy(){
+
 
 }
 
@@ -153,16 +292,25 @@ void MainWindow::check(){
     if(!ui->checkBox_3->isChecked()){
         symbolst =false;
     }
+    else {
+        symbolst =true;
+    }
     if(!ui->checkBox_4->isChecked()){
         bigAlp =false;
     }
-    qDebug() << "numt is " << numt;
-    qDebug() << "numt is " << smallAlp;
+    else {
+        bigAlp =true;
+    }
+
 }
 
 void MainWindow::copy(){
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(generatedPassword);
+    ui->label_8->setText("Copied");
+    QTimer::singleShot(2000, this, [this]() {
+        ui->label_8->clear(); // Clear the label text
+    });
 }
 void MainWindow::style(){
     //coloring
