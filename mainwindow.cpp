@@ -91,188 +91,76 @@ void MainWindow::checkbox2(){
     }
 }
 void MainWindow::logic1(){
-    if(ui->comboBox->currentIndex()==0){
+
     int slval = ui->horizontalSlider->value();
     ui->label_3->clear();
     generatedPassword.clear();
 
      // random distribution logic
     random_device device;
-    mt19937 generate(device());
+     mt19937 generate(device());
+    // if(ui->comboBox->currentIndex()==0){
+    // random_device device;
+    // mt19937 generate(device());
+    // }
+    // else if (ui->comboBox->currentIndex()==1){
+
+    //     mt19937 generate(time(0));
+    // }
     uniform_int_distribution<> numericals(0,9);
     uniform_int_distribution<> smallAlpha('a','z');
     uniform_int_distribution<> bigAlpha('A', 'Z');
     vector<char> symbols = {'!', '@', '#', '$', '%', '^', '&', '*',')','(','~','`',';',':'};
     uniform_int_distribution<> symbolpick(0, symbols.size() - 1);
 
-    uniform_int_distribution<> randomgen(0,3);
+    // Dynamic valid types list
+    vector<int> validTypes;
+    if (numt) validTypes.push_back(0);      // Type 0: Numbers
+    if (smallAlp) validTypes.push_back(1);  // Type 1: Small Alphabets
+    if (symbolst) validTypes.push_back(2);  // Type 2: Symbols
+    if (bigAlp) validTypes.push_back(3);    // Type 3: Big Alphabets
 
-   // the generating logic
+    if (validTypes.empty()) {
+        QMessageBox::warning(this, "Warning", "No character types selected. Please enable at least one option.");
+        return;
+    }
 
-    for(int n=0;n<slval;n++){
-        int randomprint = randomgen(generate);
+    uniform_int_distribution<> randomgen(0, validTypes.size() - 1);
 
-        if(symbolst==true&&numt==false&&smallAlp==false&&bigAlp==false){
-            randomprint=2;
-        }
-        if(symbolst==false&&numt==true&&smallAlp==false&&bigAlp==false){
-            randomprint=0;
-        }
-        if(symbolst==false&&numt==false&&smallAlp==true&&bigAlp==false){
-            randomprint=1;
-        }
-        if(symbolst==false&&numt==false&&smallAlp==false&&bigAlp==true){
-            randomprint=3;
-        }
+    // Password generation logic
+    for (int n = 0; n < slval; n++) {
+        int randomType = validTypes[randomgen(generate)];
 
-        if(symbolst==false){
-            if(randomprint==2)
-                randomprint+=1;
+        if (randomType == 0) {  // Numbers
+            int number = numericals(generate);
+            generatedPassword += QString::number(number);
+        } else if (randomType == 1) {  // Small Alphabets
+            char small_alpha = smallAlpha(generate);
+            generatedPassword += QString(small_alpha);
+        } else if (randomType == 2) {  // Symbols
+            char specialchar = symbols[symbolpick(generate)];
+            generatedPassword += QString(specialchar);
+        } else if (randomType == 3) {  // Big Alphabets
+            char big_alpha = bigAlpha(generate);
+            generatedPassword += QString(big_alpha);
         }
-        if(numt==false){
-            if(randomprint==0){
-                randomprint+=1;
-            }
-        }
-        if(smallAlp==false){
-            if(randomprint==1){
-                randomprint+=1;
-            }
-        }
-        if(bigAlp==false){
-            if(randomprint==3){
-                randomprint-=3;
-            }
-        }
+    }
 
-
-        if(randomprint==0&&numt==true){
-            int numbers = numericals(generate) ;
-           generatedPassword += QString::number(numbers);
-        }
-        if(randomprint==1&&smallAlp==true){
-            char small_alpha = smallAlpha(generate) ;
-                generatedPassword += QString(small_alpha);
-        }
-        if(randomprint==2&&symbolst==true){
-            char specialchars = symbols[symbolpick(generate)] ;
-            generatedPassword += QString(specialchars);
-        }
-
-        if(randomprint==3&&bigAlp==true){
-            char bigA = bigAlpha(generate);
-           generatedPassword += QString(bigA);
-        }
-
-        }
     ui->label_3->setText(generatedPassword);
-        int sliderValue = ui->horizontalSlider->value();
-    if (sliderValue < 4) {
+
+
+    if (slval < 4) {
         QMessageBox::warning(this, "Warning", "The slider value is too low! Please increase it.");
-    } else if (sliderValue < 7) {
+    } else if (slval < 7) {
         ui->label_7->setStyleSheet("background-color: red;");
-    } else if (sliderValue < 9) {
+    } else if (slval < 9) {
         ui->label_7->setStyleSheet("background-color: yellow;");
-    }
-    else if (sliderValue>=11){
+    } else if (slval >= 11) {
         ui->label_7->setStyleSheet("background-color: green;");
-
     }
-    }
-    else{
-        int slval = ui->horizontalSlider->value();
-        ui->label_3->clear();
-        generatedPassword.clear();
-
-        // random distribution logic
-
-        mt19937 generate(time(0));
-        uniform_int_distribution<> numericals(0,9);
-        uniform_int_distribution<> smallAlpha('a','z');
-        uniform_int_distribution<> bigAlpha('A', 'Z');
-        vector<char> symbols = {'!', '@', '#', '$', '%', '^', '&', '*',')','(','~','`',';',':'};
-        uniform_int_distribution<> symbolpick(0, symbols.size() - 1);
-
-        uniform_int_distribution<> randomgen(0,3);
-
-        // the generating logic
-
-        for(int n=0;n<slval;n++){
-            int randomprint = randomgen(generate);
-
-            if(symbolst==true&&numt==false&&smallAlp==false&&bigAlp==false){
-                randomprint=2;
-            }
-            if(symbolst==false&&numt==true&&smallAlp==false&&bigAlp==false){
-                randomprint=0;
-            }
-            if(symbolst==false&&numt==false&&smallAlp==true&&bigAlp==false){
-                randomprint=1;
-            }
-            if(symbolst==false&&numt==false&&smallAlp==false&&bigAlp==true){
-                randomprint=3;
-            }
-
-            if(symbolst==false){
-                if(randomprint==2)
-                    randomprint+=1;
-            }
-            if(numt==false){
-                if(randomprint==0){
-                    randomprint+=1;
-                }
-            }
-            if(smallAlp==false){
-                if(randomprint==1){
-                    randomprint+=1;
-                }
-            }
-            if(bigAlp==false){
-                if(randomprint==3){
-                    randomprint-=3;
-                }
-            }
-
-
-            if(randomprint==0&&numt==true){
-                int numbers = numericals(generate) ;
-                generatedPassword += QString::number(numbers);
-            }
-            if(randomprint==1&&smallAlp==true){
-                char small_alpha = smallAlpha(generate) ;
-                generatedPassword += QString(small_alpha);
-            }
-            if(randomprint==2&&symbolst==true){
-                char specialchars = symbols[symbolpick(generate)] ;
-                generatedPassword += QString(specialchars);
-            }
-
-            if(randomprint==3&&bigAlp==true){
-                char bigA = bigAlpha(generate);
-                generatedPassword += QString(bigA);
-            }
-
-        }
-        ui->label_3->setText(generatedPassword);
-        int sliderValue = ui->horizontalSlider->value();
-        if (sliderValue < 4) {
-            QMessageBox::warning(this, "Warning", "The slider value is too low! Please increase it.");
-        } else if (sliderValue < 7) {
-            ui->label_7->setStyleSheet("background-color: red;");
-        } else if (sliderValue < 9) {
-            ui->label_7->setStyleSheet("background-color: yellow;");
-        }
-        else if (sliderValue>=11){
-            ui->label_7->setStyleSheet("background-color: green;");
-
-        }
-    }
-    }
-
-void MainWindow::easy(){
-
-
 }
+
+
 
 
 void MainWindow::check(){
