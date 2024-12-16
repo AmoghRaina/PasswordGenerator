@@ -5,6 +5,7 @@
 #include <QClipboard>
 #include <QTimer>
 #include <cmath>
+#include <QDesktopServices>
 using namespace std;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -37,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->checkBox_2,&QCheckBox::stateChanged,this,&MainWindow::check);
     connect(ui->checkBox_3,&QCheckBox::stateChanged,this,&MainWindow::check);
     connect(ui->checkBox_4,&QCheckBox::stateChanged,this,&MainWindow::check);
+    connect(ui->pushButton_2,&QPushButton::clicked,this,&MainWindow::link);
 }
 
 MainWindow::~MainWindow()
@@ -259,7 +261,10 @@ void MainWindow::timee() {
 
     ui->label_10->setText(timeString);
 }
-
+void MainWindow::link(){
+    QUrl url("https://github.com/AmoghRaina/PasswordGenerator");
+    QDesktopServices::openUrl(url);
+}
 void MainWindow::style(){
     //coloring
 

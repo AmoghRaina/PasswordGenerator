@@ -34,5 +34,6 @@ private:
     void copy();
     void check();
     void timee();
+    void link();
 };
 // #endif // MAINWINDOW_H
