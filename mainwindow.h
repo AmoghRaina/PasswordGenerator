@@ -1,10 +1,8 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+// #ifndef MAINWINDOW_H
+// #define MAINWINDOW_H
 #include <QMainWindow>
-#include <random>
-#include <vector>
 #include <QString>
-using namespace std;
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -23,7 +21,7 @@ public:
     bool smallAlp=true;
     bool bigAlp=true;
     QString generatedPassword;
-
+    int slval;
 
 private:
     Ui::MainWindow *ui;
@@ -34,7 +32,7 @@ private:
     void checkbox2();
     void logic1();
     void copy();
-    void easy();
     void check();
+    void timee();
 };
-#endif // MAINWINDOW_H
+// #endif // MAINWINDOW_H

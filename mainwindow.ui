@@ -120,8 +120,8 @@
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>450</x>
-      <y>210</y>
+      <x>440</x>
+      <y>200</y>
       <width>41</width>
       <height>29</height>
      </rect>
@@ -190,6 +190,7 @@
     <property name="font">
      <font>
       <family>Tahoma</family>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
@@ -347,35 +348,13 @@
      <string/>
     </property>
    </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>200</y>
-      <width>63</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Tahoma</family>
-      <underline>true</underline>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(27, 27, 27);</string>
-    </property>
-    <property name="text">
-     <string>Strength:</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>200</y>
-      <width>21</width>
-      <height>20</height>
+      <x>10</x>
+      <y>230</y>
+      <width>481</width>
+      <height>5</height>
      </rect>
     </property>
     <property name="font">
@@ -396,7 +375,7 @@
      <rect>
       <x>160</x>
       <y>165</y>
-      <width>81</width>
+      <width>51</width>
       <height>20</height>
      </rect>
     </property>
@@ -414,6 +393,88 @@ color: rgb(17, 255, 5);</string>
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>200</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Tahoma</family>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(27, 27, 27);</string>
+    </property>
+    <property name="text">
+     <string>Time to crack:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>200</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Tahoma</family>
+      <underline>false</underline>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(27, 27, 27);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>160</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Tahoma</family>
+      <bold>false</bold>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(27, 27, 27);</string>
+    </property>
+    <property name="text">
+     <string>Engine:</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_2">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>155</y>
+      <width>161</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Mt19337</string>
+     </property>
+    </item>
+   </widget>
    <zorder>label_2</zorder>
    <zorder>checkBox</zorder>
    <zorder>pushButton</zorder>
@@ -430,9 +491,12 @@ color: rgb(17, 255, 5);</string>
    <zorder>checkBox_6</zorder>
    <zorder>pushButton_3</zorder>
    <zorder>label_5</zorder>
-   <zorder>label_6</zorder>
    <zorder>label_7</zorder>
    <zorder>label_8</zorder>
+   <zorder>label_9</zorder>
+   <zorder>label_10</zorder>
+   <zorder>label_6</zorder>
+   <zorder>comboBox_2</zorder>
   </widget>
  </widget>
  <resources/>

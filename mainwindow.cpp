@@ -4,7 +4,7 @@
 #include <random>
 #include <QClipboard>
 #include <QTimer>
-
+#include <cmath>
 using namespace std;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -27,9 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->checkBox_2->setChecked(true);
     ui->checkBox_3->setChecked(true);
     ui->checkBox_4->setChecked(true);
-
-
-
     connect(ui->checkBox,&QCheckBox::stateChanged,this,&MainWindow::generatePassword);
     connect(ui->horizontalSlider,&QSlider::valueChanged,this,&MainWindow::sliderValue);
     connect(ui->checkBox_5,&QCheckBox::stateChanged,this,&MainWindow::checkbox);
@@ -92,21 +89,20 @@ void MainWindow::checkbox2(){
 }
 void MainWindow::logic1(){
 
-    int slval = ui->horizontalSlider->value();
+    slval = ui->horizontalSlider->value();
     ui->label_3->clear();
     generatedPassword.clear();
 
      // random distribution logic
     random_device device;
-     mt19937 generate(device());
-    // if(ui->comboBox->currentIndex()==0){
-    // random_device device;
-    // mt19937 generate(device());
-    // }
-    // else if (ui->comboBox->currentIndex()==1){
+    mt19937 generate;
+    if(ui->comboBox->currentIndex()==0){
 
-    //     mt19937 generate(time(0));
-    // }
+        generate.seed(device());
+    }
+    else if (ui->comboBox->currentIndex()==1){
+        generate.seed(time(0));
+    }
     uniform_int_distribution<> numericals(0,9);
     uniform_int_distribution<> smallAlpha('a','z');
     uniform_int_distribution<> bigAlpha('A', 'Z');
@@ -151,13 +147,17 @@ void MainWindow::logic1(){
 
     if (slval < 4) {
         QMessageBox::warning(this, "Warning", "The slider value is too low! Please increase it.");
-    } else if (slval < 7) {
-        ui->label_7->setStyleSheet("background-color: red;");
-    } else if (slval < 9) {
-        ui->label_7->setStyleSheet("background-color: yellow;");
+    } else if (slval > 20) {
+        ui->label_7->setStyleSheet("background-color: rgb(27, 255, 0);");
     } else if (slval >= 11) {
         ui->label_7->setStyleSheet("background-color: green;");
+    } else if (slval < 9) {
+        ui->label_7->setStyleSheet("background-color: yellow;");
+    } else if (slval < 7) {
+        ui->label_7->setStyleSheet("background-color: red;");
     }
+
+    timee();
 }
 
 
@@ -200,12 +200,72 @@ void MainWindow::copy(){
         ui->label_8->clear(); // Clear the label text
     });
 }
+void MainWindow::timee() {
+    int totalChars = 0;
+
+    // Counting available character types
+    if (numt) totalChars += 10;
+    if (smallAlp) totalChars += 26;
+    if (bigAlp) totalChars += 26;
+    if (symbolst) totalChars += 14;
+
+    if (totalChars == 0) {
+        ui->label_10->setText("No character types selected.");
+        return;
+    }
+
+    // Calculate combinations
+    double combinations = pow(totalChars, slval);
+    double crackingSpeed = 1e9;
+    double crackingTimeSeconds = combinations / crackingSpeed;
+
+    QString timeString;
+
+    // Format very large numbers using scientific notation
+    auto formatLargeNumber = [](double number) {
+        int exponent = log10(number);
+        double base = number / pow(10, exponent);
+        return QString::number(base, 'f', 2) + " × 10^" + QString::number(exponent);
+    };
+
+    if (crackingTimeSeconds < 60) {
+        if (crackingTimeSeconds > 1e6) {
+            timeString = formatLargeNumber(crackingTimeSeconds) + " seconds";
+        } else {
+            timeString = QString::number(crackingTimeSeconds, 'f', 2) + " seconds";
+        }
+    } else if (crackingTimeSeconds < 3600) {
+        double minutes = crackingTimeSeconds / 60;
+        if (minutes > 1e6) {
+            timeString = formatLargeNumber(minutes) + " minutes";
+        } else {
+            timeString = QString::number(minutes, 'f', 2) + " minutes";
+        }
+    } else if (crackingTimeSeconds < 86400) {
+        double hours = crackingTimeSeconds / 3600;
+        if (hours > 1e6) {
+            timeString = formatLargeNumber(hours) + " hours";
+        } else {
+            timeString = QString::number(hours, 'f', 2) + " hours";
+        }
+    } else {
+        double days = crackingTimeSeconds / 86400;
+        if (days > 1e6) {
+            timeString = formatLargeNumber(days) + " days";
+        } else {
+            timeString = QString::number(days, 'f', 2) + " days";
+        }
+    }
+
+    ui->label_10->setText(timeString);
+}
+
 void MainWindow::style(){
     //coloring
 
     ui->horizontalSlider->setStyleSheet(
         "QSlider {"
-        "    background: rgb(27, 27, 27);"  // Set the overall background color for the entire slider
+        "    background: rgb(27, 27, 27);"  // bg for the entire slider
         "}"
         "QSlider::groove:horizontal {"
         "    background: rgb(100, 100, 100);"  // Background color for the groove (track)
@@ -225,6 +285,11 @@ void MainWindow::style(){
         "}"
 
         );
+
+    // uncomment the below code for the checkboxes style change (i personally didnt like it so i commented it)
+
+
+
 //     QList<QCheckBox*> checkBoxes = { ui->checkBox, ui->checkBox_2, ui->checkBox_3, ui->checkBox_4 };
 // for (QCheckBox* checkBox : checkBoxes) {
 // checkBox->setStyleSheet(
